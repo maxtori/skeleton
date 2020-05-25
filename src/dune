@@ -2,7 +2,7 @@
  (action
   (write-file pConfig.ml
    "let x = \"%{env:PROJECT_NAME=skeleton}\"
-let database = \"%{env:PGDATABSE=skeleton}\"
+let database = \"%{env:PGDATABASE=skeleton}\"
 let web_host = \"%{env:WEB_HOST=http://localhost:8888}\"")))
 
 (library

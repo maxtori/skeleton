@@ -1,13 +1,13 @@
 (library
  (name api_services)
  (wrapped false)
- (modules encoding services)
- (libraries ez-api.js data_common))
+ (modules encoding services session_arg)
+ (libraries ez-api.session-client data_common))
 
 (library
  (name api_lib)
  (wrapped false)
- (modules handlers api)
+ (modules sessions handlers api)
  (libraries ez-api.server api_services db_lwt))
 
 (executable

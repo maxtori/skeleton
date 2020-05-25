@@ -1,10 +1,11 @@
 (library
- (name misc)
- (modules misc)
- (libraries project_config))
+ (name pmisc)
+ (wrapped false)
+ (modules pMisc mRes mLwt)
+ (libraries project_config lwt))
 
 (library
  (name data_common)
  (wrapped false)
  (modules data_types utils)
- (libraries misc))
+ (libraries pmisc))

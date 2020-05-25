@@ -6,27 +6,24 @@ let get_app ?app () = match app with
   | Some app -> app
 
 let route ?app path =
-  Common.logs ("route " ^ path);
+  Ui.log_str ("route " ^ path);
   let app = get_app ?app () in
   app##.path := string path;
   match String.split_on_char '/' path with
   | [ path ] -> begin match path with
-      | _ ->
-        Common.logs "TEST0";
-        Request.get0 Services.version (fun {v_db; v_db_version} ->
-            app##.database := string v_db;
-            app##.db_version_ := v_db_version)
+      | "version" -> Request.version app
+      | _ -> ()
     end
-  | _ -> Common.logs "TEST2"
+  | _ -> ()
 
 let route_js app path =
   route ~app (to_string path);
-  Common.set_path (to_string path)
+  Ui.set_path (to_string path)
 
 let init () =
   V.add_method1 "route" route_js;
-  let path = Common.path () in
+  let path = Ui.path () in
   Dom_html.window##.onpopstate := Dom_html.handler (fun _e ->
-      route @@ Common.path ();
+      route @@ Ui.path ();
       _true);
   path

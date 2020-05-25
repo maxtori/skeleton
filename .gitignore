@@ -7,3 +7,4 @@ www
 db-version.txt
 *.merlin
 _build
+static/js/vue_debug.js

@@ -13,7 +13,6 @@
     <script src="/js/vue.js"></script>
     <script src="/js/bootstrap-vue.min.js"></script>
     <script src="/js/bootstrap-vue-icons.min.js"></script>
-
     <script src="skeleton-ui.js" defer></script>
   </head>
   <body class="bg-dark text-light">
@@ -26,11 +25,55 @@
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
           </b-navbar-nav>
+          <b-navbar-nav class="ml-auto">
+            <b-nav-form v-if="!login.connected" class="mr-3">
+              <b-input-group>
+                <b-form-input placeholder="Username" v-model="login.login_name" :state="login_name_state" required class="login-form"></b-form-input>
+                <b-form-input placeholder="Password" type="password" v-model="login.login_pwd" :state="login_pwd_state" :invalid-feedback="login.login_error ? login.login_error.content :''" required class="login-form"></b-form-input>
+                <b-button variant="primary" @click="sign_in()">Login</b-button>
+              </b-input-group>
+            </b-nav-form>
+            <b-nav-item v-if="!login.connected" @click="route('signup')">Sign up</b-nav-item>
+            <b-nav-item-dropdown v-else right menu-class="light bg-dark" class="ml-3">
+              <template v-slot:button-content>
+                <b-avatar variant="dark" size="sm"></b-avatar>
+                <span class="mr-1">{{ login.login_name }}</span>
+              </template>
+              <b-dropdown-item v-if="login.connected" @click="sign_out()" variant="light bg-dark">
+                <b-icon class="mr-1" icon="power"></b-icon>Sign out
+              </b-dropdown-item>
+              <b-dropdown-item v-if="login.connected" @click="route('settings')" variant="light bg-dark">
+                <b-icon class="mr-1" icon="gear-fill"></b-icon>Settings
+              </b-dropdown-item>
+            </b-nav-item-dropdown>
+          </b-navbar-nav>
         </b-collapse>
       </b-navbar>
 
       <!-- Home -->
       <b-container v-if="path==''">
+      </b-container>
+
+      <!-- Signup -->
+      <b-container v-else-if="path=='signup' && !login.connected">
+        <b-form class="my-5 mx-auto signup-form">
+          <b-form-group label="Username *" label-for="signup-username" invalid-feedback="Your username must be longer than 4 characters." :state="signup_name_state">
+            <b-form-input id="signup-username" v-model="login.signup_name" :state="signup_name_state" required>
+          </b-form-group>
+          <b-form-group label="Password *" label-for="signup-password" invalid-feedback="Your password must contain at least one lower case, one upper case, one digit and must be longer than 8 characters." :state="signup_pwd_state">
+            <b-form-input id="signup-password" type="password" v-model="login.signup_pwd" :state="signup_pwd_state" required>
+          </b-form-group>
+          <div class="text-center">
+            <b-button variant="primary" @click="sign_up()">Sign Up</b-button>
+            <b-form-invalid-feedback :state="login.signup_error == undefined" class="mt-2">
+              {{ login.signup_error ? login.signup_error.content : '' }}
+            </b-form-invalid-feedback>
+          </div>
+        </b-form>
+      </b-container>
+
+      <!-- Version -->
+      <b-container v-else-if="path=='version'">
         <div clas="text-center">
           <div>Database: {{ database }}</div>
           <div>Database version: {{ db_version }}</div>

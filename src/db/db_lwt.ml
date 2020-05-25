@@ -3,7 +3,7 @@ let unix_domain_socket_dir = "/var/run/postgresql"
 let verbose_mode = ref false
 let verbose_counter = ref 0
 
-let debug fmt = Misc.debug !verbose_mode fmt
+let debug fmt = PMisc.debug !verbose_mode fmt
 
 module M = Monad_lwt
 

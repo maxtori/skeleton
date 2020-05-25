@@ -1,5 +1,4 @@
 (lang dune 2.4)
-(allow_approximate_merlin)
 
 (source (uri git://gitlab.com/o-labs/skeleton))
 (license MIT)
@@ -23,4 +22,5 @@
   re
   (httpaf-lwt-unix (>= 0.6.0))
   (extunix (>= 0.2.0))
-  (ocurl (>= 0.8.0))))
+  (ocurl (>= 0.8.0))
+  (base64 (>= 3.2.0))))
